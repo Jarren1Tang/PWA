@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './LS.css';
 import user_icon from './Assets/user.png';
 import email_icon from './Assets/email.png';
 import password_icon from './Assets/password.png';
+
+// Define API URL constant
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3002';
 
 export const LoginSignup = () => {
   const [action, setAction] = useState('Login');
@@ -17,6 +20,41 @@ export const LoginSignup = () => {
     password: '',
   });
   const [loginError, setLoginError] = useState(null);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (event) => {
+      // Prevent the default browser prompt
+      event.preventDefault();
+      // Store the event for later use
+      setDeferredPrompt(event);
+    };
+
+    // Listen for the beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    // Clean up event listener
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleAddToHomeScreen = () => {
+    // Display the browser's install prompt
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt');
+        } else {
+          console.log('User dismissed the A2HS prompt');
+        }
+        // Clear the deferredPrompt variable
+        setDeferredPrompt(null);
+      });
+    }
+  };
 
   const handleSignupContinue = async () => {
     // Check if any of the required fields are empty
@@ -26,7 +64,7 @@ export const LoginSignup = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3002/register', {
+      const response = await fetch(`${API_URL}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +84,7 @@ export const LoginSignup = () => {
 
   const handleLoginContinue = async () => {
     try {
-      const response = await fetch('http://localhost:3002/login', {
+      const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -157,6 +195,9 @@ export const LoginSignup = () => {
         >
           Continue
         </div>
+      </div>
+      <div className="download-container">
+        <button onClick={handleAddToHomeScreen}>Download App</button>
       </div>
     </div>
   );
