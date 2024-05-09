@@ -28,13 +28,13 @@ export const LoginSignup = () => {
     const initializeFirebaseMessaging = async () => {
       try {
         const firebaseConfig = {
-          apiKey: "<your-api-key>",
-          authDomain: "<your-auth-domain>",
-          projectId: "<your-project-id>",
-          storageBucket: "<your-storage-bucket>",
-          messagingSenderId: "<your-messaging-sender-id>",
-          appId: "<your-app-id>",
-          measurementId: "<your-measurement-id>",
+          apiKey: "AIzaSyAGnhEObuNYweqm6Ab01PdIJ1__dA1dtpE",
+          authDomain: "pwa-fyp-8038d.firebaseapp.com",
+          projectId: "pwa-fyp-8038d",
+          storageBucket: "pwa-fyp-8038d.appspot.com",
+          messagingSenderId: "177810861430",
+          appId: "1:177810861430:web:146c048b8325ce4efcde57",
+          measurementId: "G-W1JC46F0DQ"
         };
 
         firebase.initializeApp(firebaseConfig);
