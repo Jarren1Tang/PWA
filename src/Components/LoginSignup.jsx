@@ -4,6 +4,8 @@ import './LS.css';
 import user_icon from './Assets/user.png';
 import email_icon from './Assets/email.png';
 import password_icon from './Assets/password.png';
+import firebase from 'firebase/app';
+import 'firebase/messaging';
 
 // Define API URL constant
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3002';
@@ -23,20 +25,29 @@ export const LoginSignup = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
-    const handleBeforeInstallPrompt = (event) => {
-      // Prevent the default browser prompt
-      event.preventDefault();
-      // Store the event for later use
-      setDeferredPrompt(event);
-    };
+    const initializeFirebaseMessaging = async () => {
+      try {
+        const firebaseConfig = {
+          apiKey: "<your-api-key>",
+          authDomain: "<your-auth-domain>",
+          projectId: "<your-project-id>",
+          storageBucket: "<your-storage-bucket>",
+          messagingSenderId: "<your-messaging-sender-id>",
+          appId: "<your-app-id>",
+          measurementId: "<your-measurement-id>",
+        };
 
-    // Listen for the beforeinstallprompt event
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    // Clean up event listener
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+        await messaging.requestPermission();
+        const token = await messaging.getToken();
+        console.log('FCM Token:', token);
+        // Send token to backend for storage
+      } catch (error) {
+        console.error('Error initializing Firebase Messaging:', error);
+      }
     };
+    initializeFirebaseMessaging();
   }, []);
 
   const handleAddToHomeScreen = () => {
@@ -47,8 +58,36 @@ export const LoginSignup = () => {
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
           console.log('User accepted the A2HS prompt');
+          // Call API endpoint to handle install prompt action
+          fetch(`${API_URL}/handle-install-prompt`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action: 'accepted' }),
+          }).then((response) => {
+            if (!response.ok) {
+              console.error('Failed to handle install prompt action');
+            }
+          }).catch((error) => {
+            console.error('Error handling install prompt action:', error);
+          });
         } else {
           console.log('User dismissed the A2HS prompt');
+          // Call API endpoint to handle install prompt action
+          fetch(`${API_URL}/handle-install-prompt`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action: 'dismissed' }),
+          }).then((response) => {
+            if (!response.ok) {
+              console.error('Failed to handle install prompt action');
+            }
+          }).catch((error) => {
+            console.error('Error handling install prompt action:', error);
+          });
         }
         // Clear the deferredPrompt variable
         setDeferredPrompt(null);
