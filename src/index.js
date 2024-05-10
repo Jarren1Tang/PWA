@@ -14,8 +14,6 @@ window.addEventListener('beforeinstallprompt', (event) => {
   // For example, display a button that, when clicked, triggers the installation prompt
 });
 
-window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
 // Logging performance results or sending them to an analytics endpoint
 reportWebVitals();
 
@@ -24,4 +22,4 @@ ReactDOM.render(
     <App />
   </React.StrictMode>,
   document.getElementById('root')
-);  
+);
