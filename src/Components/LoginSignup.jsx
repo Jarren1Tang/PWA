@@ -4,7 +4,8 @@ import './LS.css';
 import user_icon from './Assets/user.png';
 import email_icon from './Assets/email.png';
 import password_icon from './Assets/password.png';
-
+import 'firebase/messaging';
+import 'firebase/firestore';
 
 // Define API URL constant
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3002';
