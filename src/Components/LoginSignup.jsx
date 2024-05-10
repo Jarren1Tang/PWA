@@ -4,7 +4,8 @@ import './LS.css';
 import user_icon from './Assets/user.png';
 import email_icon from './Assets/email.png';
 import password_icon from './Assets/password.png';
-import 'firebase/messaging';
+import firebase from 'firebase/app'; // Import only the Firebase core module
+import 'firebase/messaging'; // Import additional Firebase modules as needed
 import 'firebase/firestore';
 
 // Define API URL constant
