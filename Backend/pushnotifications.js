@@ -6,12 +6,13 @@ const admin = require('firebase-admin');
 const serviceAccount = require('./path/to/serviceAccountKey.json'); // Update with your service account key
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAGnhEObuNYweqm6Ab01PdIJ1__dA1dtpE",  
+  authDomain: "pwa-fyp-8038d.firebaseapp.com",
+  projectId: "pwa-fyp-8038d",
+  storageBucket: "pwa-fyp-8038d.appspot.com",
+  messagingSenderId: "177810861430",
+  appId: "1:177810861430:web:146c048b8325ce4efcde57",
+  measurementId: "G-W1JC46F0DQ"
 });
 
 // Endpoint to send push notification
