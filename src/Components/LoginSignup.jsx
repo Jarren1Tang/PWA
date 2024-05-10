@@ -48,6 +48,15 @@ export const LoginSignup = () => {
       }
     };
     initializeFirebaseMessaging();
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    // Define the handleBeforeInstallPrompt function
+    function handleBeforeInstallPrompt(event) {
+      // Prevent the default behavior
+      event.preventDefault();
+      // Store the event for later use
+      setDeferredPrompt(event);
+    }
   }, []);
 
   const handleAddToHomeScreen = () => {
