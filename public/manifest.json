@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Soil Humidity Monitor",
+  "name": "PWA for Soil Humidity Monitoring",
   "icons": [
     {
       "src": "favicon.ico",
